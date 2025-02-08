@@ -1,0 +1,50 @@
+services:
+  db:
+    container_name: database
+    image: mariadb:10.7.8-focal
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT:-root}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-wordpress}
+      - MYSQL_USER=${MYSQL_USER:-wordpress}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-wordpress}
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
+      - 33060
+
+  pma:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+    ports:
+      - '3307:80'
+
+  wp:
+    container_name: wordpress
+    build:
+      context: ./wordpress1
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_NAME=${MYSQL_DATABASE:-wordpress}
+      - WORDPRESS_DB_USER=${MYSQL_USER:-wordpress}
+      - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD:-wordpress}
+      - WORDPRESS_DEBUG=${DEBUG:-false}
+    volumes:
+      - './wordpress1/src:/var/www/html'
+    ports:
+      - '80:80'
+      - '443:443'
+
+volumes:
+  db_data:
