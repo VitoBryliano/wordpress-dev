@@ -51,3 +51,10 @@ Docker for quick start project in WordPress
 - [phpMyAdmin](http://localhost:3307/): 3307
 - MariaDB: 3306 - you can use any client to connect to the database
 - [Mailpit](http://localhost:8025/): 8025
+
+## WordPress Plugins
+ - You should install [Simple smtp](https://uk.wordpress.org/plugins/simple-smtp/) and setup if you want use Mailpit:
+   - SMTP Host: mailpit
+   - SMTP Port: 1025
+   - SMTP Encryption: None
+   - SMTP Authentication: No

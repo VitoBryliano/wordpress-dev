@@ -16,6 +16,8 @@ services:
     expose:
       - 3306
       - 33060
+    networks:
+      - lan
 
   pma:
     container_name: phpmyadmin
@@ -27,6 +29,8 @@ services:
       PMA_HOST: db
     ports:
       - '3307:80'
+    networks:
+      - lan
 
   wp:
     container_name: wordpress
@@ -43,11 +47,19 @@ services:
       - WORDPRESS_DB_USER=${MYSQL_USER:-wordpress}
       - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD:-wordpress}
       - WORDPRESS_DEBUG=${DEBUG:-false}
+      - WORDPRESS_SMTP_HOST=${WORDPRESS_SMTP_HOST:-mailpit}
+      - WORDPRESS_SMTP_PORT=${WORDPRESS_SMTP_PORT:-1025}
+      - SMTP_HOSTNAME=${SMTP_HOSTNAME:-mailpit}
+      - SMTP_PORT=${SMTP_PORT:-"1025"}
+      - SMTP_USER=${SMTP_USER:-local@example.com}
+      - SMTP_FROM=${SMTP_FROM:-local@example.com}
     volumes:
       - './wordpress1/src:/var/www/html'
     ports:
       - '80:80'
       - '443:443'
+    networks:
+      - lan
 
   mailpit:
     container_name: mailpit
@@ -64,7 +76,13 @@ services:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
       TZ: UTC # Setting the container's time zone to UTC
+    networks:
+      - lan
 
 volumes:
   db_data:
   mailpit_data:
+
+networks:
+  lan:
+    driver: bridge
