@@ -42,6 +42,7 @@ Docker for quick start project in WordPress
 - wordpress:6.6.2-php8.1
 - mariadb:10.7.8-focal
 - phpmyadmin/phpmyadmin
+- axllent/mailpit:latest
 
 
 ## Ports
@@ -49,3 +50,4 @@ Docker for quick start project in WordPress
 - [WordPress](http://localhost/): 80
 - [phpMyAdmin](http://localhost:3307/): 3307
 - MariaDB: 3306 - you can use any client to connect to the database
+- [Mailpit](http://localhost:8025/): 8025
