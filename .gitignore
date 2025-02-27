@@ -1,0 +1,7 @@
+.idea/
+wordpress1/src/
+db_data/
+mailpit_data/
+
+.DS_Store
+.env
