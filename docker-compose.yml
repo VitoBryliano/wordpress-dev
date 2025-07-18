@@ -28,7 +28,7 @@ services:
     environment:
       PMA_HOST: db
     ports:
-      - '3307:80'
+      - '127.0.0.1:3307:80'
     networks:
       - lan
 
@@ -68,7 +68,7 @@ services:
     volumes:
       - ./mailpit_data:/data
     ports:
-      - "8025:8025"
+      - "127.0.0.1:8025:8025"
       - "1025:1025"
     environment:
       MP_MAX_MESSAGES: 5000
